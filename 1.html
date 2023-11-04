@@ -1,0 +1,611 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <style>
+        :root {
+            --cell-size: 80px;
+            --mark-size: calc(var(--cell-size) * .9);
+        }
+
+        body {
+            margin: 0;
+            background-image: url(/background.jpg);
+            z-index: -1;
+        }
+
+        #timer {
+            margin-left: 5vw;
+            margin-top: 10vh;
+            position: absolute;
+            z-index: 2;
+            font-family: "Roboto", sans-serif;
+            font-size: 100px;
+            font-weight: bold;
+            background: rgba(179, 4, 4, 0.5);
+            width: 250px;
+            padding: 40px;
+            text-align: center;
+            text-decoration: none;
+            color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            -webkit-transition-property: box-shadow, transform;
+            transition-property: box-shadow, transform;
+
+
+        }
+
+        #startButton {
+            margin-left: 35vw;
+            margin-top: 50vh;
+            position: absolute;
+            z-index: 2;
+            font-family: "Roboto", sans-serif;
+            font-size: 50px px;
+            font-weight: bold;
+            background: #1e90ff;
+            width: 30vw;
+            padding: 20px;
+            text-align: center;
+            text-decoration: none;
+            color: #fff;
+            border-radius: 5px;
+            cursor: pointer;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            -webkit-transition-property: box-shadow, transform;
+            transition-property: box-shadow, transform;
+
+        }
+
+        #startButton:hover,
+        #startButton:focus,
+        #startButton:active {
+
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+            -webkit-transform: scale(1.1);
+            transform: scale(1.1);
+
+        }
+
+        .grid {
+            width: 100vw;
+            height: 100vh;
+            display: grid;
+            justify-content: center;
+            align-content: center;
+            justify-items: center;
+            align-items: center;
+            padding: 10px;
+            border: 100px;
+            border-color: aquamarine;
+
+            grid-template-columns: repeat(8, auto)
+        }
+
+
+        .cell {
+            width: var(--cell-size);
+            height: var(--cell-size);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            cursor: pointer;
+            margin: 3px;
+
+
+        }
+
+        .winning-message {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, .9);
+            justify-content: center;
+            align-items: center;
+            color: white;
+            font-size: 5rem;
+            flex-direction: column;
+        }
+
+
+        .winning-message button {
+            font-size: 3rem;
+            background-color: white;
+            border: 1px solid black;
+            padding: .25em .5em;
+            cursor: pointer;
+        }
+
+        .winning-message button:hover {
+
+            background-color: black;
+            color: white;
+            border-color: white;
+        }
+
+        .winning-message.show {
+            display: flex;
+        }
+
+        .image {
+            height: 100px;
+            width: 100px;
+            z-index: -1;
+        }
+    </style>
+</head>
+
+<body>
+    <title>Find_the_Animal</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <div id="timer">00:00</div>
+    <button id="startButton">Start Game</button>
+
+
+    <div class="grid" id="grid">
+        <div class="cell" data-row="1" data-col="1">
+            <img class="image" id="img1" src="grass.png" alt="Image 1">
+        </div>
+        <div class="cell" data-row="1" data-col="2">
+            <img class="image" id="img2" src="grass.png" alt="Image 1">
+        </div>
+        <div class="cell" data-row="1" data-col="3">
+            <img class="image" id="img3" src="grass.png" alt="Image 1">
+        </div>
+        <div class="cell" data-row="1" data-col="4">
+            <img class="image" id="img4" src="grass.png" alt="Image 1">
+        </div>
+        <div class="cell" data-row="1" data-col="5">
+            <img class="image" id="img5" src="grass.png" alt="Image 1">
+        </div>
+        <div class="cell" data-row="1" data-col="6">
+            <img class="image" id="img6" src="grass.png" alt="Image 1">
+        </div>
+        <div class="cell" data-row="1" data-col="7">
+            <img class="image" id="img7" src="grass.png" alt="Image 1">
+        </div>
+        <div class="cell" data-row="1" data-col="8">
+            <img class="image" id="img8" src="grass.png" alt="Image 1">
+        </div>
+
+
+        <div class="cell" data-row="2" data-col="1">
+            <img class="image" id="img9" src="grass.png" alt="Image 1">
+        </div>
+        <div class="cell" data-row="2" data-col="2">
+            <img class="image" id="img10" src="grass.png" alt="Image 1">
+        </div>
+        <div class="cell" data-row="2" data-col="3">
+            <img class="image" id="img11" src="grass.png" alt="Image 1">
+        </div>
+        <div class="cell" data-row="2" data-col="4">
+            <img class="image" id="img12" src="grass.png" alt="Image 1">
+        </div>
+        <div class="cell" data-row="2" data-col="5">
+            <img class="image" id="img13" src="grass.png" alt="Image 1">
+        </div>
+        <div class="cell" data-row="2" data-col="6">
+            <img class="image" id="img14" src="grass.png" alt="Image 1">
+        </div>
+        <div class="cell" data-row="2" data-col="7">
+            <img class="image" id="img15" src="grass.png" alt="Image 1">
+        </div>
+        <div class="cell" data-row="2" data-col="8">
+            <img class="image" id="img16" src="grass.png" alt="Image 1">
+        </div>
+
+        <div class="cell" data-row="3" data-col="1">
+            <img class="image" id="img17" src="grass.png" alt="Image 1">
+        </div>
+        <div class="cell" data-row="3" data-col="2">
+            <img class="image" id="img18" src="grass.png" alt="Image 1">
+        </div>
+        <div class="cell" data-row="3" data-col="3">
+            <img class="image" id="img19" src="grass.png" alt="Image 1">
+        </div>
+        <div class="cell" data-row="3" data-col="4">
+            <img class="image" id="img20" src="grass.png" alt="Image 1">
+        </div>
+        <div class="cell" data-row="3" data-col="5">
+            <img class="image" id="img21" src="grass.png" alt="Image 1">
+        </div>
+        <div class="cell" data-row="3" data-col="6">
+            <img class="image" id="img22" src="grass.png" alt="Image 1">
+        </div>
+        <div class="cell" data-row="3" data-col="7">
+            <img class="image" id="img23" src="grass.png" alt="Image 1">
+        </div>
+        <div class="cell" data-row="3" data-col="8">
+            <img class="image" id="img24" src="grass.png" alt="Image 1">
+        </div>
+
+        <div class="cell" data-row="4" data-col="1">
+            <img class="image" id="img25" src="grass.png" alt="Image 1">
+        </div>
+        <div class="cell" data-row="4" data-col="2">
+            <img class="image" id="img26" src="grass.png" alt="Image 1">
+        </div>
+        <div class="cell" data-row="4" data-col="3">
+            <img class="image" id="img27" src="grass.png" alt="Image 1">
+        </div>
+        <div class="cell" data-row="4" data-col="4">
+            <img class="image" id="img28" src="grass.png" alt="Image 1">
+        </div>
+        <div class="cell" data-row="4" data-col="5">
+            <img class="image" id="img29" src="grass.png" alt="Image 1">
+        </div>
+        <div class="cell" data-row="4" data-col="6">
+            <img class="image" id="img30" src="grass.png" alt="Image 1">
+        </div>
+        <div class="cell" data-row="4" data-col="7">
+            <img class="image" id="img31" src="grass.png" alt="Image 1">
+        </div>
+        <div class="cell" data-row="4" data-col="8">
+            <img class="image" id="img32" src="grass.png" alt="Image 1">
+        </div>
+
+        <div class="cell" data-row="5" data-col="1">
+            <img class="image" id="img33" src="grass.png" alt="Image 1">
+        </div>
+        <div class="cell" data-row="5" data-col="2">
+            <img class="image" id="img34" src="grass.png" alt="Image 1">
+        </div>
+        <div class="cell" data-row="5" data-col="3">
+            <img class="image" id="img35" src="grass.png" alt="Image 1">
+        </div>
+        <div class="cell" data-row="5" data-col="4">
+            <img class="image" id="img36" src="grass.png" alt="Image 1">
+        </div>
+        <div class="cell" data-row="5" data-col="5">
+            <img class="image" id="img37" src="grass.png" alt="Image 1">
+        </div>
+        <div class="cell" data-row="5" data-col="6">
+            <img class="image" id="img38" src="grass.png" alt="Image 1">
+        </div>
+        <div class="cell" data-row="5" data-col="7">
+            <img class="image" id="img39" src="grass.png" alt="Image 1">
+        </div>
+        <div class="cell" data-row="5" data-col="8">
+            <img class="image" id="img40" src="grass.png" alt="Image 1">
+        </div>
+
+        <div class="cell" data-row="6" data-col="1">
+            <img class="image" id="img41" src="grass.png" alt="Image 1">
+        </div>
+        <div class="cell" data-row="6" data-col="2">
+            <img class="image" id="img42" src="grass.png" alt="Image 1">
+        </div>
+        <div class="cell" data-row="6" data-col="3">
+            <img class="image" id="img43" src="grass.png" alt="Image 1">
+        </div>
+        <div class="cell" data-row="6" data-col="4">
+            <img class="image" id="img44" src="grass.png" alt="Image 1">
+        </div>
+        <div class="cell" data-row="6" data-col="5">
+            <img class="image" id="img45" src="grass.png" alt="Image 1">
+        </div>
+        <div class="cell" data-row="6" data-col="6">
+            <img class="image" id="img46" src="grass.png" alt="Image 1">
+        </div>
+        <div class="cell" data-row="6" data-col="7">
+            <img class="image" id="img47" src="grass.png" alt="Image 1">
+        </div>
+        <div class="cell" data-row="6" data-col="8">
+            <img class="image" id="img48" src="grass.png" alt="Image 1">
+        </div>
+
+        <div class="cell" data-row="7" data-col="1">
+            <img class="image" id="img49" src="grass.png" alt="Image 1">
+        </div>
+        <div class="cell" data-row="7" data-col="2">
+            <img class="image" id="img50" src="grass.png" alt="Image 1">
+        </div>
+        <div class="cell" data-row="7" data-col="3">
+            <img class="image" id="img51" src="grass.png" alt="Image 1">
+        </div>
+        <div class="cell" data-row="7" data-col="4">
+            <img class="image" id="img52" src="grass.png" alt="Image 1">
+        </div>
+        <div class="cell" data-row="7" data-col="5">
+            <img class="image" id="img53" src="grass.png" alt="Image 1">
+        </div>
+        <div class="cell" data-row="7" data-col="6">
+            <img class="image" id="img54" src="grass.png" alt="Image 1">
+        </div>
+        <div class="cell" data-row="7" data-col="7">
+            <img class="image" id="img55" src="grass.png" alt="Image 1">
+        </div>
+        <div class="cell" data-row="7" data-col="8">
+            <img class="image" id="img56" src="grass.png" alt="Image 1">
+        </div>
+
+        <div class="cell" data-row="8" data-col="1">
+            <img class="image" id="img57" src="grass.png" alt="Image 1">
+        </div>
+        <div class="cell" data-row="8" data-col="2">
+            <img class="image" id="img58" src="grass.png" alt="Image 1">
+        </div>
+        <div class="cell" data-row="8" data-col="3">
+            <img class="image" id="img59" src="grass.png" alt="Image 1">
+        </div>
+        <div class="cell" data-row="8" data-col="4">
+            <img class="image" id="img60" src="grass.png" alt="Image 1">
+        </div>
+        <div class="cell" data-row="8" data-col="5">
+            <img class="image" id="img61" src="grass.png" alt="Image 1">
+        </div>
+        <div class="cell" data-row="8" data-col="6">
+            <img class="image" id="img62" src="grass.png" alt="Image 1">
+        </div>
+        <div class="cell" data-row="8" data-col="7">
+            <img class="image" id="img63" src="grass.png" alt="Image 1">
+        </div>
+        <div class="cell" data-row="8" data-col="8">
+            <img class="image" id="img64" src="grass.png" alt="Image 1">
+        </div>
+
+
+    </div>
+    <div class="winning-message" id="winningMessage">
+        <div data-winning-message-text></div>
+        <button id="restartButton">Restart</button>
+    </div>
+    <p class="wins" id="selectedLocation"></p>
+    <p class="wins" id="win"></p>
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.2.1/howler.min.js"
+        integrity="sha512-L6Z/YtIPQ7eU3BProP34WGU5yIRk7tNHk7vaC2dB1Vy1atz6wl9mCkTPPZ2Rn1qPr+vY2mZ9odZLdGYuaBk7dQ=="
+        crossorigin="anonymous"></script>
+    <script>
+        const grid = document.getElementById("grid");
+        const selectedLocation = document.getElementById("selectedLocation");
+        const winningMessageElement = document.getElementById('winningMessage')
+        const restartButton = document.getElementById('restartButton')
+
+        var start_game = false
+        var pet_row = Math.floor(Math.random() * 8) + 1;
+        var pet_col = Math.floor(Math.random() * 8) + 1;
+        var row
+        var col
+        let timerInterval;
+        let seconds = 0;
+        let minutes = 0;
+        const winningMessageTextElement = document.querySelector('[data-winning-message-text]')
+
+
+        grid.addEventListener("mouseover", (event) => {
+
+            if (event.target.classList.contains("cell")) {
+                row = event.target.getAttribute("data-row");
+                col = event.target.getAttribute("data-col");
+                selectedLocation.textContent = `Selected Cell: Row ${row}, Column ${col}`;
+                checksound(row, col)
+            }
+        });
+        grid.addEventListener("click", (event) => {
+
+            if (event.target.classList.contains("cell")) {
+                row = event.target.getAttribute("data-row");
+                col = event.target.getAttribute("data-col");
+                selectedLocation.textContent = `Selected Cell: Row ${row}, Column ${col}`;
+                checkpet(row, col)
+            }
+        });
+        var found = false;
+        var sfx = {
+            sound: new Howl({
+                src: [
+                    "cat-meow-6226.mp3"
+                ]
+            })
+
+        }
+        function checkpet(row, col) {
+            
+                if (start_game) {
+
+                    if (row == pet_row && col == pet_col) {
+                        found = true;
+                        changeImg();
+                        setTimeout(endGame, 3000);
+
+                    }
+                }
+        }
+        function checksound(row, col) {
+                let dist = Math.sqrt(Math.pow(row - pet_row, 2) + Math.pow(col - pet_col, 2))
+                var maxDistance = 5;
+                var volume = 0
+                if (dist <= 5) { volume = 1 - (dist / maxDistance); }
+                sfx.sound.volume(volume);
+
+                sfx.sound.play();
+            }
+        function endGame() {
+
+            winningMessageTextElement.innerText = ` Wins!\n ${minutes}:${seconds}`
+
+            winningMessageElement.classList.add('show')
+            clearInterval(timerInterval);
+            timerInterval = undefined;
+        }
+
+
+        document.getElementById('restartButton').addEventListener('click', function () {
+            location.reload();
+        });
+
+
+        function updateTimer() {
+            seconds++;
+            if (seconds === 60) {
+                seconds = 0;
+                minutes++;
+            }
+
+            const formattedTime =
+                (minutes < 10 ? "0" : "") + minutes + ":" + (seconds < 10 ? "0" : "") + seconds;
+
+            document.getElementById("timer").textContent = formattedTime;
+        }
+
+        document.getElementById("startButton").addEventListener("click", function () {
+            if (!timerInterval) {
+                start_game = true;
+
+                timerInterval = setInterval(updateTimer, 1000);
+            }
+            this.remove();
+        });
+        function changeImg() {
+            var temp = 0
+            temp = (8 * (pet_row - 1) + pet_col);
+
+            switch (temp) {
+                case 1: document.getElementById("img1").src = "cat.png";
+                    break;
+                case 2: document.getElementById("img2").src = "cat.png";
+                    break;
+                case 3: document.getElementById("img3").src = "cat.png";
+                    break;
+                case 4: document.getElementById("img4").src = "cat.png";
+                    break;
+                case 5: document.getElementById("img5").src = "cat.png";
+                    break;
+                case 6: document.getElementById("img6").src = "cat.png";
+                    break;
+                case 7: document.getElementById("img7").src = "cat.png";
+                    break;
+                case 8: document.getElementById("img8").src = "cat.png";
+                    break;
+                case 9: document.getElementById("img9").src = "cat.png";
+                    break;
+                case 10: document.getElementById("img10").src = "cat.png";
+                    break;
+                case 11: document.getElementById("img11").src = "cat.png";
+                    break;
+                case 12: document.getElementById("img12").src = "cat.png";
+                    break;
+                case 13: document.getElementById("img13").src = "cat.png";
+                    break;
+                case 14: document.getElementById("img14").src = "cat.png";
+                    break;
+                case 15: document.getElementById("img15").src = "cat.png";
+                    break;
+                case 16: document.getElementById("img16").src = "cat.png";
+                    break;
+                case 17: document.getElementById("img17").src = "cat.png";
+                    break;
+                case 18: document.getElementById("img18").src = "cat.png";
+                    break;
+                case 19: document.getElementById("img19").src = "cat.png";
+                    break;
+                case 20: document.getElementById("img20").src = "cat.png";
+                    break;
+                case 21: document.getElementById("img21").src = "cat.png";
+                    break;
+                case 22: document.getElementById("img22").src = "cat.png";
+                    break;
+                case 23: document.getElementById("img23").src = "cat.png";
+                    break;
+                case 24: document.getElementById("img24").src = "cat.png";
+                    break;
+                case 25: document.getElementById("img25").src = "cat.png";
+                    break;
+                case 26: document.getElementById("img26").src = "cat.png";
+                    break;
+                case 27: document.getElementById("img27").src = "cat.png";
+                    break;
+                case 28: document.getElementById("img28").src = "cat.png";
+                    break;
+                case 29: document.getElementById("img29").src = "cat.png";
+                    break;
+                case 30: document.getElementById("img30").src = "cat.png";
+                    break;
+                case 31: document.getElementById("img31").src = "cat.png";
+                    break;
+                case 32: document.getElementById("img32").src = "cat.png";
+                    break;
+                case 33: document.getElementById("img33").src = "cat.png";
+                    break;
+                case 34: document.getElementById("img34").src = "cat.png";
+                    break;
+                case 35: document.getElementById("img35").src = "cat.png";
+                    break;
+                case 36: document.getElementById("img36").src = "cat.png";
+                    break;
+                case 37: document.getElementById("img37").src = "cat.png";
+                    break;
+                case 38: document.getElementById("img38").src = "cat.png";
+                    break;
+                case 39: document.getElementById("img39").src = "cat.png";
+                    break;
+                case 40: document.getElementById("img40").src = "cat.png";
+                    break;
+                case 41: document.getElementById("img41").src = "cat.png";
+                    break;
+                case 42: document.getElementById("img42").src = "cat.png";
+                    break;
+                case 43: document.getElementById("img43").src = "cat.png";
+                    break;
+                case 44: document.getElementById("img44").src = "cat.png";
+                    break;
+                case 45: document.getElementById("img45").src = "cat.png";
+                    break;
+                case 46: document.getElementById("img46").src = "cat.png";
+                    break;
+                case 47: document.getElementById("img47").src = "cat.png";
+                    break;
+                case 48: document.getElementById("img48").src = "cat.png";
+                    break;
+                case 49: document.getElementById("img49").src = "cat.png";
+                    break;
+                case 50: document.getElementById("img50").src = "cat.png";
+                    break;
+                case 51: document.getElementById("img51").src = "cat.png";
+                    break;
+                case 52: document.getElementById("img52").src = "cat.png";
+                    break;
+                case 53: document.getElementById("img53").src = "cat.png";
+                    break;
+                case 54: document.getElementById("img54").src = "cat.png";
+                    break;
+                case 55: document.getElementById("img55").src = "cat.png";
+                    break;
+                case 56: document.getElementById("img56").src = "cat.png";
+                    break;
+                case 57: document.getElementById("img57").src = "cat.png";
+                    break;
+                case 58: document.getElementById("img58").src = "cat.png";
+                    break;
+                case 59: document.getElementById("img59").src = "cat.png";
+                    break;
+                case 60: document.getElementById("img60").src = "cat.png";
+                    break;
+                case 61: document.getElementById("img61").src = "cat.png";
+                    break;
+                case 62: document.getElementById("img62").src = "cat.png";
+                    break;
+                case 63: document.getElementById("img63").src = "cat.png";
+                    break;
+                case 64: document.getElementById("img64").src = "cat.png";
+                    break;
+
+                default:
+                    break;
+            }
+        }
+
+    </script>
+
+</body>
+
+</html>
