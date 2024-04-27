@@ -1,9 +1,5 @@
 # find_the_animal_heads
 
-leader :Gaurisha
-2nd member: Pratik
-
-
 ## Game Overview
 
 Welcome to animals, a fun and challenging game where you need to use your hearing skills to locate a hidden animal. Adjust the sound volume to reveal the animal's location. Are you up for the challenge?
@@ -49,5 +45,9 @@ Welcome to animals, a fun and challenging game where you need to use your hearin
 
 1. Clone the repository to your local machine:
 
+## Author
+
+leader :[Gaurisha](https://github.com/gaurisha09)
+2nd member: [Pratik](https://github.com/PratikNaik12345)
 ```bash
 git clone https://github.com/gaurisha09/find_the_animal_heads.git
