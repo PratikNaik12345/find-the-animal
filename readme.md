@@ -46,6 +46,7 @@ Welcome to animals, a fun and challenging game where you need to use your hearin
 ## Author
 
 leader :[Gaurisha](https://github.com/gaurisha09)
+
 2nd member: [Pratik](https://github.com/PratikNaik12345)
 ```bash
 git clone https://github.com/gaurisha09/find_the_animal_heads.git
