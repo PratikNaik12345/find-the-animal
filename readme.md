@@ -11,8 +11,6 @@ Welcome to animals, a fun and challenging game where you need to use your hearin
 - [Scoring](#scoring)
 - [Tips](#tips)
 - [Installation](#installation)
-- [Contributing](#contributing)
-- [License](#license)
 
 ## How to Play
 
